@@ -19,7 +19,7 @@ use Elex\RequestAQuote\TemplateSetting\Models\TemplateModel;
 	</td>
 	<td>
 	<?php if ( ( true !== $is_hide_price_enabled ) || ( 'quote-approved' === $order->get_status() ) ) { ?>
-		<?php echo ( 0 !== $product->get_price() && '' !== $product->get_price() && '0' !== $product->get_price() ) ? esc_html( TemplateModel::get_price_with_currency( number_format( $product->get_price() , 2) ) ) : 0; ?>
+		<?php echo ( 0 !== $product->get_price() && '' !== $product->get_price() && '0' !== $product->get_price() ) ?  wp_kses_post(html_entity_decode( wc_price($product->get_price() ) ) ) : 0; ?>
 		<?php } ?>
 	</td>
 	<td>
@@ -27,7 +27,7 @@ use Elex\RequestAQuote\TemplateSetting\Models\TemplateModel;
 	</td>
 	<td>
 	<?php if ( ( true !== $is_hide_price_enabled ) || ( 'quote-approved' === $order->get_status() ) ) { ?>
-		<?php echo ( 0 !== $item->get_subtotal() && '' !== $item->get_subtotal() && '0' !== $item->get_subtotal() ) ? esc_html( TemplateModel::get_price_with_currency(number_format( $item->get_subtotal() , 2))) : 0; ?>
+		<?php echo ( 0 !== $item->get_subtotal() && '' !== $item->get_subtotal() && '0' !== $item->get_subtotal() ) ? wp_kses_post(html_entity_decode( wc_price($item->get_subtotal() ) ) )  : 0; ?>
 	<?php } ?>
 	</td>
 </tr>

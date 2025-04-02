@@ -9,8 +9,14 @@ import { ClearQuoteMsg } from "../toast_message/update_message";
 import { QuoteForm } from "../form/fields/form";
 
 const ClosePopUp = () => {
-  window.location = localStorage.getItem('redirect_page');
-  jQuery(".elex-raq-quote-list-popup-container").addClass("d-none");
+  const redirectPage = localStorage.getItem('redirect_page');
+
+  if (redirectPage) {
+      window.location.href = redirectPage;
+  } else {
+      window.history.back();
+  }
+  jQuery('.elex-raq-quote-list-popup-container').addClass("d-none");
 };
 
 const OpenQuoteList = () => {

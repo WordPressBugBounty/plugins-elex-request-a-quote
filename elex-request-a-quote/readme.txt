@@ -3,8 +3,8 @@ Contributors: ELEXtensions
 Donate link:
 Tags: woocommerce request a quote, quote request, request a quote shortcode, request a quote button, request for quote.
 Requires at least: 3.0.1
-Tested up to: 6.6
-Stable tag: 2.3.3
+Tested up to: 6.7
+Stable tag: 2.3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,10 +66,16 @@ We, Team ELEXtensions are a group of WordPress and WooCommerce enthusiasts with 
 
 == Changelog ==
 
+= 2.3.4 =
+* Tested OK with WooCommerce 9.7
+* Tested OK with WordPress 6.7
+* Fixed a compatibility issue with the Fluent Forms plugin, causing warnings to appear on the dashboard when the plugin was installed
+* Resolved an issue where variation attribute names were sometimes missing on the quote page
+
 = 2.3.3 =
-* Tested OK with WooCommerce 9.2
-* Added Chinese (Taiwan), Chinese (China), and Chinese (Hong Kong) language translations
-* Enhanced UI to clearly differentiate between basic and premium features using premium tags
+* Tested OK with WooCommerce 9.3
+* Added Chinese(Taiwan),Chinese(China) and Chinese(Hong Kong) language translations
+* Updated the UI to clearly differentiate between basic and premium features using the premium tags
 
 = 2.3.2 =
 * Made compatible with B2BKing Core Plugin
@@ -276,10 +282,16 @@ We, Team ELEXtensions are a group of WordPress and WooCommerce enthusiasts with 
 
 == Upgrade Notice ==
 
+= 2.3.4 =
+* Tested OK with WooCommerce 9.7
+* Tested OK with WordPress 6.7
+* Fixed a compatibility issue with the Fluent Forms plugin, causing warnings to appear on the dashboard when the plugin was installed
+* Resolved an issue where variation attribute names were sometimes missing on the quote page
+
 = 2.3.3 =
-* Tested OK with WooCommerce 9.2
-* Added Chinese (Taiwan), Chinese (China), and Chinese (Hong Kong) language translations
-* Enhanced UI to clearly differentiate between basic and premium features using premium tags
+* Tested OK with WooCommerce 9.3
+* Added Chinese(Taiwan),Chinese(China) and Chinese(Hong Kong) language translations
+* Updated the UI to clearly differentiate between basic and premium features using the premium tags
 
 = 2.3.2 =
 * Made compatible with B2BKing Core Plugin

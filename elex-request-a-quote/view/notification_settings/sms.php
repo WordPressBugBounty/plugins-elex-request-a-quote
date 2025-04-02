@@ -33,7 +33,7 @@
 											$translated_message   = __('Enable to receive SMS notification when the customer makes a quote request. Sign up for a new Twilio account %s', 'elex-request-a-quote');
 											$twilio_url           = esc_url('https://www.twilio.com/try-twilio');
 											$escaped_link_message = esc_html($link_message);
-											$twillio_link = '<a target="_blank" href="' . esc_url($twilio_url) . '">' . esc_html($escaped_link_message) . '</a>';
+											$twillio_link         = '<a target="_blank" href="' . esc_url($twilio_url) . '">' . esc_html($escaped_link_message) . '</a>';
 											?>
 											<?php printf (wp_kses_post($translated_message) , wp_kses_post($twillio_link) ); ?>
 									</small>

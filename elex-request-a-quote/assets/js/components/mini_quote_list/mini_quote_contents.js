@@ -2,6 +2,8 @@ import { RemoveProduct } from "../quote_list/quote_items";
 import { decode } from "html-entities";
 import { RenderDelete } from "../quote_list/quote_list_content";
 import { PriceWithCurrency } from "../quote_list/priceWithCurrency";
+import { GetWooCommercePrice } from "../GetWooCommercePrice";
+
 
 export const MiniQuoteContents = (props) => {
   return (
@@ -25,7 +27,7 @@ export const MiniQuoteContents = (props) => {
               ? " X "
               : ""}
               {props.show_price && false === props.hide_price_global
-              ? <PriceWithCurrency currency={props.currency} price={props.item.item_cost} currency_position={props.currency_position}/>
+              ? <GetWooCommercePrice val={props.item.item_cost} />
               : ""}
               {" "}
           </div>

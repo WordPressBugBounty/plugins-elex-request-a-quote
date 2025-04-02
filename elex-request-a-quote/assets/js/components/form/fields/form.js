@@ -273,6 +273,7 @@ export const QuoteForm = (props) => {
     let flag = false;
     jQuery('#request_a_quote_form input[type="checkbox"]').each(function () {
       let checkboxName = jQuery(this).attr("name");
+      checkboxName = checkboxName ? checkboxName : 'default';
       let checkedValues = [];
 
       jQuery(
@@ -345,7 +346,7 @@ export const QuoteForm = (props) => {
     const label_name =props.data.name
     const title =props.data.title
 
-    if (props.data.connected_to === "default") {
+    if (props.data.connected_to === "default" ||  props.data.connected_to === '' ) {
       if (count === "default") {
         count = 0;
         connected_to = "default";
@@ -384,7 +385,7 @@ export const QuoteForm = (props) => {
         onSubmit={handleFormSubmit}
       >
         {props.form.fields.map((field, i) => {
-          return (
+         return (
             <FormInput
               key={i}
               data={field}

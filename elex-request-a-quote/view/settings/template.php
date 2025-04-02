@@ -1001,67 +1001,67 @@
 
 								<tr>
 									<td><?php esc_html_e( 'Billing First Name', 'elex-request-a-quote' ); ?></td>
-									<td><?php esc_html( '@billing_first_name'); ?></td>
+									<td><?php esc_html_e( '@billing_first_name'); ?></td>
 								</tr>
 
 								<tr>
 									<td><?php esc_html_e( 'Billing Last Name', 'elex-request-a-quote' ); ?></td>
-									<td><?php esc_html( '@billing_last_name' ); ?></td>
+									<td><?php esc_html_e( '@billing_last_name' ); ?></td>
 								</tr>
 
 								<tr>
 									<td><?php esc_html_e( 'Billing Company', 'elex-request-a-quote' ); ?></td>
-									<td><?php esc_html( '@billing_company' ); ?></td>
+									<td><?php esc_html_e( '@billing_company' ); ?></td>
 								</tr>
 
 								<tr>
 									<td><?php esc_html_e( 'Billing Country', 'elex-request-a-quote' ); ?></td>
-									<td><?php esc_html( '@billing_country' ); ?></td>
+									<td><?php esc_html_e( '@billing_country' ); ?></td>
 								</tr>
 								<tr>
 									<td><?php esc_html_e( 'Billing Address 1', 'elex-request-a-quote' ); ?></td>
-									<td><?php esc_html( '@billing_address_1' ); ?></td>
+									<td><?php esc_html_e( '@billing_address_1' ); ?></td>
 								</tr>
 
 								<tr>
 									<td><?php esc_html_e( 'Billing Address 2', 'elex-request-a-quote' ); ?></td>
-									<td><?php esc_html( '@billing_address_2'); ?></td>
+									<td><?php esc_html_e( '@billing_address_2'); ?></td>
 								</tr>
 								<tr>
 									<td><?php esc_html_e( 'Billing City', 'elex-request-a-quote' ); ?></td>
-									<td><?php esc_html( '@billing_city' ); ?></td>
+									<td><?php esc_html_e( '@billing_city' ); ?></td>
 								</tr>
 								<tr>
 									<td><?php esc_html_e( 'Billing State', 'elex-request-a-quote' ); ?></td>
-									<td><?php esc_html( '@billing_state' ); ?></td>
+									<td><?php esc_html_e( '@billing_state' ); ?></td>
 								</tr>
 								<tr>
 									<td><?php esc_html_e( 'Billing Postcode', 'elex-request-a-quote' ); ?></td>
-									<td><?php esc_html( '@billing_postcode' ); ?></td>
+									<td><?php esc_html_e( '@billing_postcode' ); ?></td>
 								</tr>
 								<tr>
 									<td><?php esc_html_e( 'Billing Phone', 'elex-request-a-quote' ); ?></td>
-									<td><?php esc_html( '@billing_phone' ); ?></td>
+									<td><?php esc_html_e( '@billing_phone' ); ?></td>
 								</tr>
 								<tr>
 									<td><?php esc_html_e( 'Billing Email', 'elex-request-a-quote' ); ?></td>
-									<td><?php esc_html( '@billing_email'); ?></td>
+									<td><?php esc_html_e( '@billing_email'); ?></td>
 								</tr>
 								<tr>
 									<td><?php esc_html_e( 'Order Items', 'elex-request-a-quote' ); ?></td>
-									<td><?php esc_html( '@order_items' ); ?></td>
+									<td><?php esc_html_e( '@order_items' ); ?></td>
 								</tr>
 								<tr>
 									<td><?php esc_html_e( 'Payment Link', 'elex-request-a-quote' ); ?></td>
-									<td><?php esc_html( '@payment_link' ); ?></td>
+									<td><?php esc_html_e( '@payment_link' ); ?></td>
 								</tr>
 								<tr>
 									<td><?php esc_html_e( 'Customer Note', 'elex-request-a-quote' ); ?></td>
-									<td><?php esc_html( '@customer_note' ); ?></td>
+									<td><?php esc_html_e( '@customer_note' ); ?></td>
 								</tr>
 								<tr>
 									<td><?php esc_html_e( 'Order ID', 'elex-request-a-quote' ); ?></td>
-									<td><?php esc_html( '@order_id'); ?></td>
+									<td><?php esc_html_e( '@order_id'); ?></td>
 								</tr>
 								<tr>
 									<td><?php esc_html_e( 'Custom Fields', 'elex-request-a-quote' ); ?></td>

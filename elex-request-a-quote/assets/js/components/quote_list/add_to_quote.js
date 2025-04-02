@@ -76,6 +76,11 @@ jQuery('.add_view_quote_btn').on('click','.add_to_quote' ,function(e){
 
     let quantity;
     quantity = jQuery('input[name="quantity['+value+']"]').val();
+    // min = jQuery(this).attr('data-min-qty');
+    // if(quantity < min){
+    //   quantity = min;
+    // }
+   
 
     if(quantity == 0 || quantity == "" || quantity ==undefined){
     

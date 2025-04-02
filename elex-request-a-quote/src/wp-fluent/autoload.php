@@ -27,21 +27,21 @@ spl_autoload_register(function ( $class) {
 });
 
 
-if (! function_exists('wpFluent')) {
+if (! function_exists('WPFluentELEXRAQ')) {
 	/**
 	 * @return \WpFluent\QueryBuilder\QueryBuilderHandler
 	 */
-	function wpFluent() {
-		static $wpFluent;
+	function WPFluentELEXRAQ() {
+		static $WPFluentELEXRAQ;
 
-		if (! $wpFluent) {
+		if (! $WPFluentELEXRAQ) {
 			global $wpdb;
 
 			$connection = new WpFluent\Connection($wpdb, ['prefix' => $wpdb->prefix], 'DB');
 
-			$wpFluent = new \WpFluent\QueryBuilder\QueryBuilderHandler($connection);
+			$WPFluentELEXRAQ = new \WpFluent\QueryBuilder\QueryBuilderHandler($connection);
 		}
 
-		return $wpFluent;
+		return $WPFluentELEXRAQ;
 	}
 }

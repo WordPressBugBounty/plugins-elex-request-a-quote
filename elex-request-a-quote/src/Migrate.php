@@ -80,4 +80,12 @@ class Migrate {
 		dbDelta( $query );
 	
 	}
+
+	//in upgrade 2 column is added in premium but we do not require that in basic. We are adding upgrade_3 because it should not create conflict with premium
+	public function upgrade_3() {
+		global $wpdb;
+		$table_name  = $wpdb->prefix . self::TABLE_QUOTE_PRODUCTS;
+		$alter_query = "ALTER TABLE $table_name ADD COLUMN  product_attributes text COLLATE utf8_unicode_ci DEFAULT NULL"; 
+		wpFluent()->statement( $alter_query );
+	}
 }

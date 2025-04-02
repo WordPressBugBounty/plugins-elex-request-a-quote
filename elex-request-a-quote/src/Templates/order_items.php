@@ -63,7 +63,7 @@ use Elex\RequestAQuote\TemplateSetting\Models\TemplateModel;
 								</td>
 								<td>
 									<?php if (( true !== $is_hide_price_enabled ) || ( 'quote-approved' === $order->get_status() )) { ?>
-										<?php echo esc_html(false === $data['child'] ? $product->get_price() : ''); ?>
+										<?php echo esc_html(false === $data['child'] ? wp_kses_post(  html_entity_decode(wc_price( $product->get_price()))) : ''); ?>
 									<?php } ?>
 								</td>
 								<td>
@@ -71,7 +71,7 @@ use Elex\RequestAQuote\TemplateSetting\Models\TemplateModel;
 								</td>
 								<td>
 									<?php if (( true !== $is_hide_price_enabled ) || ( 'quote-approved' === $order->get_status() )) { ?>
-										<?php echo esc_html(false === $data['child'] ? $item->get_subtotal() . ' ' . get_woocommerce_currency() : ''); ?>
+										<?php echo esc_html(false === $data['child'] ? wp_kses_post(  html_entity_decode(wc_price($item->get_subtotal()))) : ''); ?>
 									<?php } ?>
 								</td>
 							</tr>
@@ -125,7 +125,7 @@ use Elex\RequestAQuote\TemplateSetting\Models\TemplateModel;
 					<?php esc_html_e('Subtotal', 'elex-request-a-quote'); ?>
 				</td>
 				<td style="width: 100px;">
-					<?php echo ( 0 !== $order->get_subtotal() && '' !== $order->get_subtotal() && '0' !== $order->get_subtotal() ) ? esc_html( TemplateModel::get_price_with_currency(number_format( $order->get_subtotal() , 2)) ) : 0; ?>
+					<?php echo ( 0 !== $order->get_subtotal() && '' !== $order->get_subtotal() && '0' !== $order->get_subtotal() ) ?   wp_kses_post(html_entity_decode(wc_price($order->get_subtotal()))) : 0; ?>
 				</td>
 			</tr>
 			<tr>
@@ -134,7 +134,7 @@ use Elex\RequestAQuote\TemplateSetting\Models\TemplateModel;
 				</td>
 
 				<td style="width: 100px;">
-					<?php echo esc_html(!empty($order->get_total_fees()) ? TemplateModel::get_price_with_currency(number_format( $order->get_total_fees() , 2 )) : '-'); ?>
+					<?php echo wp_kses_post(!empty($order->get_total_fees()) ?  html_entity_decode(wc_price( $order->get_total_fees()))  : '-'); ?>
 				</td>
 			</tr>
 			<tr>
@@ -143,7 +143,7 @@ use Elex\RequestAQuote\TemplateSetting\Models\TemplateModel;
 				</td>
 
 				<td style="width: 100px;">
-					<?php echo esc_html(!empty($order->get_discount_total()) ?  TemplateModel::get_price_with_currency(number_format($order->get_discount_total() , 2)) : '-'); ?>
+					<?php echo wp_kses_post(!empty($order->get_discount_total()) ?   html_entity_decode(wc_price($order->get_discount_total() ))  : '-'); ?>
 				</td>
 			</tr>
 			<tr>
@@ -152,7 +152,7 @@ use Elex\RequestAQuote\TemplateSetting\Models\TemplateModel;
 				</td>
 
 				<td style="width: 100px;">
-					<?php echo esc_html(!empty($order->get_total_tax()) ? TemplateModel::get_price_with_currency(number_format( $order->get_total_tax() , 2)) : '-'); ?>
+					<?php echo wp_kses_post( !empty($order->get_total_tax()) ?  html_entity_decode(wc_price($order->get_total_tax() )): '-'); ?>
 				</td>
 			</tr>
 			<tr>
@@ -160,7 +160,7 @@ use Elex\RequestAQuote\TemplateSetting\Models\TemplateModel;
 					<?php esc_html_e('Total', 'elex-request-a-quote'); ?>
 				</td>
 				<td style="width: 100px;color: #10518D;">
-					<?php echo ( 0 !== $order->get_total() && '' !== $order->get_total() && '0' !== $order->get_total() ) ? esc_html( TemplateModel::get_price_with_currency( number_format( $order->get_total() , 2) ) ) : 0; ?>
+					<?php echo ( 0 !== $order->get_total() && '' !== $order->get_total() && '0' !== $order->get_total() ) ? wp_kses_post(html_entity_decode(wc_price($order->get_total() ))): 0; ?>
 				</td>
 			</tr>
 			<?php } ?>

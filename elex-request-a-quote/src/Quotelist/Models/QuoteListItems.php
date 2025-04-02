@@ -99,16 +99,27 @@ class QuoteListItems {
 			$image_id    = $product->get_image_id();
 			$image_array = wp_get_attachment_image_src( $image_id, 'thumbnail' );
 			$image_url   = isset( $image_array[0] ) ? $image_array[0] : ''; 
-			
+			$attributes  = array();
 			if ( 'variable' === $product->get_type() ) {
+				if ( isset($product_data->product_attributes)) {
+					$attributes = json_decode($product_data->product_attributes , true);
+				}
 
 				$variation           = new \WC_Product_Variation( $product_data->variation_id );
 				$image_id            = $variation->get_image_id();
 				$image_array         = wp_get_attachment_image_src( $image_id, 'thumbnail' );
 				$image_url           = isset( $image_array[0] ) ? $image_array[0] : $image_url;
 				$selected_attributes = $variation->get_attributes();
-				$product_name        = $variation->get_name();
-				$product_name        = count($selected_attributes) > 2 ? $product_name . ' ' . implode(',', $variation->get_variation_attributes()): $product_name;
+				$product_name        = $product->get_name();
+				if (!empty($attributes)) {
+					$concatenatedValues = '';
+					foreach ($attributes as $attribute) {
+						$concatenatedValues .= $attribute['attribute_value'] . ',';
+					}
+				} else {
+					$concatenatedValues =  implode(',', $variation->get_variation_attributes());
+				}
+				$product_name = $product_name . ': ' . $concatenatedValues;
 
 			}
 			$item_price     = ( 'variable' === $product->get_type() ) ? $variation->get_price() : $product->get_price();
@@ -122,11 +133,11 @@ class QuoteListItems {
 				array(
 					'product_id'   => $product_data->product_id,
 					'title'        => ( 'variable' === $product->get_type() ) ? wp_strip_all_tags( $product_name ) : $product->get_title(),
-					'item_cost'    => ( '' !== $item_price && 0 !== $item_price &&  '0' !== $item_price ) ? number_format( $item_price , 2) :0,
+					'item_cost'    => ( '' !== $item_price && 0 !== $item_price &&  '0' !== $item_price ) ? wc_price( $item_price) :0,
 					'image_url'    => $image_url,
 					'quantity'     => $product_data->quantity, 
 					'sku'          => $product->get_sku(),
-					'item_total'   => ( '' !== $total && 0 !== $total &&  '0' !== $total ) ? number_format( $total , 2) :0,
+					'item_total'   => ( '' !== $total && 0 !== $total &&  '0' !== $total ) ? wc_price( $total) :0,
 					'variation_id' => $product_data->variation_id,
 					'product_link' => wp_kses_post( get_permalink( $product_data->product_id ) ), 
 					'type'         => $product->get_type(),
@@ -272,10 +283,10 @@ class QuoteListItems {
 				}
 			}        
 		}
-		$this->data['sub_total'] =( '' !== $subtotal && 0 !== $subtotal &&  '0' !== $subtotal ) ? number_format( $subtotal , 2) :0;
-		$this->data['tax']       = ( '' !== $tax && 0 !== $tax &&  '0' !== $tax ) ? number_format( $tax , 2) :0;
+		$this->data['sub_total'] =( '' !== $subtotal && 0 !== $subtotal &&  '0' !== $subtotal ) ? wc_price( $subtotal) :0;
+		$this->data['tax']       = ( '' !== $tax && 0 !== $tax &&  '0' !== $tax ) ? wc_price( $tax ) :0;
 		$total                   = wc_prices_include_tax() ?  $subtotal : ( $subtotal + $tax );
-		$this->data['total']     = ( '' !== $total && 0 !== $total &&  '0' !== $total ) ? number_format( $total , 2) :0;
+		$this->data['total']     = ( '' !== $total && 0 !== $total &&  '0' !== $total ) ? wc_price( $total) :0;
 		
 
 

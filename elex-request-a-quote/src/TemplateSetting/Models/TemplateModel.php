@@ -432,7 +432,9 @@ class TemplateModel {
 							array_push( $template_values, 'No value selected' );
 						} elseif ( '' != $elex_raq_default_values ) {
 							array_push( $template_values, $elex_raq_default_values );
-						}                   
+						} elseif ('' === $elex_raq_default_values) {
+								array_push( $template_values, '-' );
+						}                  
 					} else {
 						$elex_raq_default_values =  $order->get_meta( '_elex_raq_default_' . $count );
 
@@ -443,10 +445,12 @@ class TemplateModel {
 						} elseif ( '' === $elex_raq_default_values && 'checkbox' === $form_fields_of_order [ $label_check ] ['type'] ) {
 							array_push( $template_values, 'No' );
 						} elseif ( '' === $elex_raq_default_values && 'radio' === $form_fields_of_order [ $label_check ] ['type'] ) {
-array_push( $template_values, 'No value selected' );
+							array_push( $template_values, 'No value selected' );
 						} elseif ( '' != $elex_raq_default_values ) {
 						array_push( $template_values, $elex_raq_default_values );
-						}
+						} elseif ('' === $elex_raq_default_values) {
+							array_push( $template_values, '-' );
+						}   
 					}
 				} else {
 					array_push( $template_values, '' );

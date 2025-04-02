@@ -3,6 +3,7 @@ import {HideOrShowClearList} from './show_clear_list';
 import {PriceWithCurrency} from './priceWithCurrency'
 
 import {RemoveProduct} from './quote_items';
+import { GetWooCommercePrice } from "../GetWooCommercePrice";
 
 import {decode} from 'html-entities';
 
@@ -91,7 +92,7 @@ const ShowTax = (props) => {
 
  <div className="raq-fxs">
     {
-        props.tax_value !== ''?<PriceWithCurrency currency={props.currency} price={props.tax_value} currency_position={props.currency_position}/>: ''
+        props.tax_value !== ''? <GetWooCommercePrice val={props.tax_value} />: ''
     } 
  
  </div>
@@ -111,7 +112,7 @@ const ShowSubTotal = (props) => {
 
  <div className="raq-fxs">
     {
-        props.sub_total !== ''?<PriceWithCurrency currency={props.currency} price={props.sub_total} currency_position={props.currency_position}/>: ''
+        props.sub_total !== ''?<GetWooCommercePrice val={props.sub_total} />: ''
     } 
  
  </div>
@@ -130,7 +131,7 @@ const ShowTotal = (props) => {
 
  <div className="raq-fxs">
     {
-        props.total !== ''?<PriceWithCurrency currency={props.currency} price={props.total} currency_position={props.currency_position}/>: ''
+        props.total !== ''?<GetWooCommercePrice val={props.total}/>: ''
     } 
     
     </div>
@@ -157,7 +158,7 @@ const ShowPrice = (props) => {
  return(
  <div className="raq-fs">
     {
-        props.item.item_cost !== ''?<PriceWithCurrency currency={props.currency} price={props.item.item_cost} currency_position={props.currency_position}/>: ''
+        props.item.item_cost !== ''?<GetWooCommercePrice val={props.item.item_cost}/>: ''
     } 
     
     
@@ -184,7 +185,7 @@ const ShowItemSubtotal = (props) => {
  <div className="text-end">
 
  {
-        props.item.item_total !== ''?<PriceWithCurrency currency={props.currency} price={props.item.item_total} currency_position={props.currency_position}/>: ''
+        props.item.item_total !== ''?<GetWooCommercePrice val={props.item.item_total} />: ''
     } 
  </div>
  )

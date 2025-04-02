@@ -14,7 +14,7 @@ use Elex\RequestAQuote\Widget\WidgetController;
 class RequestAQuote {
 
 
-	const VERSION  = '2.3.3';
+	const VERSION  = '2.3.3.1a';
 	const INSTANCE = 'RAQ_BASIC';
 
 	public $plugin_basename;
@@ -83,6 +83,11 @@ class RequestAQuote {
 			wp_enqueue_script( 'raq_save_page', plugins_url( dirname( $this->plugin_basename ) . '/assets/js/save_page_name.js' ), array(), self::VERSION , true );
 			self::raq_page_localize_script();
 		
+		}
+		if (is_product() || is_shop() || is_product_category()) {
+			wp_enqueue_script( 'mini_quote', plugins_url( dirname( $this->plugin_basename ) . '/assets/js/miniquote.js' ), array( 'jquery', 'underscore', 'wp-element', 'wp-i18n' ), self::VERSION );
+			wp_enqueue_script( 'mini_quote_list', plugins_url( dirname( $this->plugin_basename ) . '/assets/js/components/mini_quote_list/render_mini_quote_list.min.js' ), array( 'jquery', 'underscore', 'wp-element', 'wp-i18n' ), self::VERSION );
+
 		}
 	}
 		/**
@@ -253,9 +258,10 @@ class RequestAQuote {
 		$pages = array_merge(array( 'settings', 'product_importer', 'product_exporter','b2bkingcore','wc-status' ) , $b2bking_pages);
 		if ( ! in_array( $page, $pages ) ) {
 			wp_enqueue_script( 'quote_list', plugins_url( dirname( $this->plugin_basename ) . '/assets/js/components/quote_list/quote_list.min.js' ), array( 'jquery', 'underscore', 'wp-element', 'wp-i18n' ), self::VERSION );
-			wp_enqueue_script( 'mini_quote_list', plugins_url( dirname( $this->plugin_basename ) . '/assets/js/components/mini_quote_list/render_mini_quote_list.min.js' ), array( 'jquery', 'underscore', 'wp-element', 'wp-i18n' ), self::VERSION );
-			wp_enqueue_script( 'mini_quote', plugins_url( dirname( $this->plugin_basename ) . '/assets/js/miniquote.js' ), array( 'jquery', 'underscore', 'wp-element', 'wp-i18n' ), self::VERSION );
+			//wp_enqueue_script( 'mini_quote_list', plugins_url( dirname( $this->plugin_basename ) . '/assets/js/components/mini_quote_list/render_mini_quote_list.min.js' ), array( 'jquery', 'underscore', 'wp-element', 'wp-i18n' ), self::VERSION );
+			//wp_enqueue_script( 'mini_quote', plugins_url( dirname( $this->plugin_basename ) . '/assets/js/miniquote.js' ), array( 'jquery', 'underscore', 'wp-element', 'wp-i18n' ), self::VERSION );
 			wp_enqueue_script( 'add_to_quote', plugins_url( dirname( $this->plugin_basename ) . '/assets/js/components/quote_list/add_to_quote.js' ), array( 'jquery', 'underscore', 'wp-element', 'wp-i18n' ), self::VERSION , true );
+			wp_enqueue_script( 'request_a_quote_bootstrap_script', plugins_url( dirname( $this->plugin_basename ) . '/assets/js/bootstrap.js' ), array(), self::VERSION , true );
 			self::localize_add_to_quote();
 		}
 		wp_enqueue_style( 'request_a_quote_front_style', plugins_url( dirname( $this->plugin_basename ) . '/assets/css/app.css' ), array(), self::VERSION );

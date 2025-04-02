@@ -23,7 +23,7 @@ class QuoteListModel {
 	);
 
 	public static function get_the_quote_list_id( $user_id ) {
-		$query = wpFluent()->table( Migrate::TABLE_QUOTE_LIST )
+		$query = WPFluentELEXRAQ()->table( Migrate::TABLE_QUOTE_LIST )
 			->where( 'status_id', '=', 1 );
 			
 
@@ -57,7 +57,7 @@ class QuoteListModel {
 	}
 
 	public static function quote_list_id_for_guest_through_api( $session_key ) {
-		$query = wpFluent()->table( Migrate::TABLE_QUOTE_LIST )
+		$query = WPFluentELEXRAQ()->table( Migrate::TABLE_QUOTE_LIST )
 			->where( 'status_id', '=', 1 );
 		$query->where( 'session_key', '=', $session_key );
 		$quote_list_id = $query->select( 'id' )->first();
@@ -65,24 +65,65 @@ class QuoteListModel {
 	}
 	
 
-	public static function find_product_in_quote( $quote_list_id, $product_data ) {
-		
-		$query = wpFluent()->table( Migrate::TABLE_QUOTE_PRODUCTS )
-			->where( 'quote_list_id' , '=' , $quote_list_id )
-			->where( 'product_id' , '=' , $product_data['id'] )
+	public static function find_product_in_quote( $quote_list_id, $data ) {
+
+		global $wpdb;
+
+		$query = WPFluentELEXRAQ()->table( Migrate::TABLE_QUOTE_PRODUCTS )
+			->where( 'quote_list_id', '=', $quote_list_id )
+			->where( 'product_id', '=', $data['id'] )
 			->select( '*' );
-		if ( isset( $product_data['variation_id'] ) && ! empty( $product_data['variation_id'] ) ) {
-			$query = $query->where( 'variation_id' , '=' , $product_data['variation_id'] );
+		if ( isset( $data['variation_id'] ) && ! empty( $data['variation_id'] ) && !isset($data['attributes']) ) {
+			$query = $query->where( 'variation_id', '=', $data['variation_id'] );
 		}
-		return  $query->first();
+
+		if ( isset( $data['variation_id'] ) && ! empty( $data['variation_id'] ) && isset($data['attributes']) && !empty($data['attributes'] ) ) {
+			$attribute_values = [];
+			$unescapedString  = stripslashes( $data['attributes'] );
+	
+			$data_from_front_end = json_decode( $unescapedString, true );
+			$attributeValues     = array_column($data_from_front_end, 'attribute_value');
+	
+			foreach ($attributeValues as $attribute) {
+				$conditions[] = 'JSON_CONTAINS(product_attributes, %s)';
+				$params[]     = json_encode(['attribute_value' => $attribute]);
+			}
+	
+			$conditions[] = 'quote_list_id = %d';
+			$conditions[] = 'product_id = %d';
+			$conditions[] = 'variation_id = %d';
+	
+			$params[] = $quote_list_id;
+			$params[] = $data['id'];
+			$params[] = $data['variation_id'];
+	
+			$whereClause = implode(' AND ', $conditions);
+	
+			$sql = "SELECT * FROM `{$wpdb->prefix}elex_quote_products` WHERE $whereClause";
+	
+			// Concatenate the SQL query manually
+			$prepared_sql = $sql;
+
+			foreach ($params as $param) {
+				$param        = is_numeric($param) ? $param : "'" . esc_sql($param) . "'";
+				$prepared_sql = preg_replace('/%[ds]/', $param, $prepared_sql, 1);
+			}
+
+			// Execute the concatenated SQL query
+			$results = $wpdb->get_row( ( $wpdb->prepare( '%1s', $prepared_sql ) ? stripslashes( $wpdb->prepare( '%1s', $prepared_sql ) ) : $wpdb->prepare( '%s', '' ) ), ARRAY_A );
+			return $results;
+		}
+	
+		return $query->first();
 	}
+
 
 	public static function find_variation_count_in_quote( $quote_list_id, $product_data ) {
 		
-		$query = wpFluent()->table(Migrate::TABLE_QUOTE_PRODUCTS)
+		$query = WPFluentELEXRAQ()->table(Migrate::TABLE_QUOTE_PRODUCTS)
 				->where('quote_list_id', '=', $quote_list_id)
 				->where('product_id', '=', $product_data['id'])
-				->select(wpFluent()->raw( 'COUNT(*) as count' ));
+				->select(WPFluentELEXRAQ()->raw( 'COUNT(*) as count' ));
 		if (isset($product_data['variation_id']) && !empty($product_data['variation_id'])) {
 			$query = $query->where('variation_id', '=', $product_data['variation_id']);
 		}
@@ -107,20 +148,36 @@ class QuoteListModel {
 			'updated_at'  => current_time( 'mysql' ),
 		);
 		
-		return wpFluent()->table( Migrate::TABLE_QUOTE_LIST )
+		return WPFluentELEXRAQ()->table( Migrate::TABLE_QUOTE_LIST )
 			->insert( $quote_list_data );
 	}
 
 	public static function add_products_to_quote( $quote_list_id, $product_data ) {
 
+		global $wpdb;
+		// Check if 'product_attributes' column exists
+		$column_exists = $wpdb->get_results(
+			$wpdb->prepare("SHOW COLUMNS FROM {$wpdb->prefix}elex_quote_products LIKE %s", 'product_attributes')
+		);
+
+		if (empty($column_exists)) {
+			// Add the 'product_attributes' column if it doesn't exist
+			$wpdb->query("ALTER TABLE {$wpdb->prefix}elex_quote_products ADD COLUMN product_attributes TEXT");
+		}
+
+		$unescapedString = isset($product_data['attributes']) ? stripslashes( $product_data['attributes'] ) : array();
+
+		$attributes = !empty($unescapedString) ? json_decode( $unescapedString , true ) : '';
+		
 		$data = array(
 			'product_id'    => $product_data['id'],
 			'quantity'      => $product_data['quantity'],
 			'quote_list_id' => $quote_list_id,
 			'variation_id'  => $product_data['variation_id'],
+			'product_attributes' => wp_json_encode($attributes)
 		);
 
-		wpFluent()->table( Migrate::TABLE_QUOTE_PRODUCTS )
+		WPFluentELEXRAQ()->table( Migrate::TABLE_QUOTE_PRODUCTS )
 			->insert( $data );
 
 			$product = wc_get_product( $product_data['id'] );
@@ -138,7 +195,7 @@ class QuoteListModel {
 
 	public static function update_variation_quantity( $quote_list_id, $product_data ) {
 
-		$existingQuantity = wpFluent()
+		$existingQuantity = WPFluentELEXRAQ()
 					->table(Migrate::TABLE_QUOTE_PRODUCTS)
 					->where('product_id', '=', $product_data['id'])
 					->where('quote_list_id', '=', $quote_list_id)
@@ -150,7 +207,7 @@ class QuoteListModel {
 		$updatedQuantity = $existingQuantity->quantity + $product_data['quantity'];
 		
 
-		wpFluent()->table( Migrate::TABLE_QUOTE_PRODUCTS )
+		WPFluentELEXRAQ()->table( Migrate::TABLE_QUOTE_PRODUCTS )
 			->where( 'product_id', '=', $product_data['id'] )
 			->where( 'quote_list_id', '=', $quote_list_id )
 			->where( 'variation_id', '=', $product_data['variation_id'] )
@@ -197,7 +254,7 @@ class QuoteListModel {
 	}
 
 	public static function update_quote_list_updated_time( $quote_list_id ) {
-		wpFluent()->table( Migrate::TABLE_QUOTE_LIST )
+		WPFluentELEXRAQ()->table( Migrate::TABLE_QUOTE_LIST )
 				  ->where( 'id' , '=', $quote_list_id )
 				  ->update( array( 'updated_at' => current_time( 'mysql' ) ) );
 	}
@@ -208,7 +265,7 @@ class QuoteListModel {
 			self::delete_item_in_quote( $product_id, $quantity, $quote_list_id , $variation_id );
 			return true;
 		}
-		wpFluent()->table( Migrate::TABLE_QUOTE_PRODUCTS )
+		WPFluentELEXRAQ()->table( Migrate::TABLE_QUOTE_PRODUCTS )
 			->where( 'product_id', '=', $product_id )
 			->where( 'quote_list_id', '=', $quote_list_id )
 			->where( 'variation_id', '=', $variation_id )
@@ -245,7 +302,7 @@ class QuoteListModel {
 			return false;
 		}
 
-		wpFluent()->table( Migrate::TABLE_QUOTE_PRODUCTS )
+		WPFluentELEXRAQ()->table( Migrate::TABLE_QUOTE_PRODUCTS )
 			->where( 'product_id', '=', $product_id )
 			->where( 'quote_list_id', '=', $quote_list_id )
 			->where( 'variation_id', '=', $variation_id )
@@ -258,11 +315,11 @@ class QuoteListModel {
 
 	public static  function clear_list( $quote_list_id ) {
 
-		wpFluent()->table( Migrate::TABLE_QUOTE_PRODUCTS )
+		WPFluentELEXRAQ()->table( Migrate::TABLE_QUOTE_PRODUCTS )
 			->where( 'quote_list_id', '=', $quote_list_id )
 			->delete();
 
-		wpFluent()->table( Migrate::TABLE_QUOTE_LIST )
+		WPFluentELEXRAQ()->table( Migrate::TABLE_QUOTE_LIST )
 			->where( 'id', '=', $quote_list_id )
 			->delete();
 
@@ -270,10 +327,20 @@ class QuoteListModel {
 	}
 
 	public static function get_the_quote_list( $quote_list_id ) {
-		
-		$quote_list         = wpFluent()->table( Migrate::TABLE_QUOTE_PRODUCTS )
+		global $wpdb;
+
+		// Check if 'product_attributes' column exists
+		$column_exists = $wpdb->get_results(
+			$wpdb->prepare("SHOW COLUMNS FROM {$wpdb->prefix}elex_quote_products LIKE %s", 'product_attributes')
+		);
+
+		if (empty($column_exists)) {
+			// Add the 'product_attributes' column if it doesn't exist
+			$wpdb->query("ALTER TABLE {$wpdb->prefix}elex_quote_products ADD COLUMN product_attributes TEXT");
+		}
+		$quote_list         = WPFluentELEXRAQ()->table( Migrate::TABLE_QUOTE_PRODUCTS )
 			->where( 'quote_list_id', '=', $quote_list_id )
-			->select( 'product_id' , 'quantity' , 'variation_id' )
+			->select( 'product_id' , 'quantity' , 'variation_id' , 'product_attributes')
 			->get();
 			$quote_list_obj = new QuoteListItems( $quote_list , $quote_list_id );
 			
@@ -328,7 +395,7 @@ class QuoteListModel {
 
 	public static function update_the_quote_list( $quote_list_id, $status ) {
 
-				wpFluent()->table( Migrate::TABLE_QUOTE_LIST )
+				WPFluentELEXRAQ()->table( Migrate::TABLE_QUOTE_LIST )
 				  ->where( 'id' , '=', $quote_list_id )
 				->update(
 					array(

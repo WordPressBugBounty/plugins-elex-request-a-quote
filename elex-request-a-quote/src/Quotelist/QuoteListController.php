@@ -127,6 +127,7 @@ class QuoteListController {
 
 	}
 
+
 	public static function add_elex_wrapper() {
 
 		global $page;
@@ -297,8 +298,7 @@ class QuoteListController {
 			die();
 		}
 		$product_data = ( isset( $_POST['data'] ) && ! empty( $_POST['data'] ) ) ? map_deep( $_POST['data'], 'sanitize_text_field' ) : array();
-		
-		
+
 		$product_data_temp = array();
 
 		$user_id = get_current_user_id();
@@ -574,7 +574,7 @@ class QuoteListController {
 		$success_message                 = $settings['general']['add_to_quote_success_message'];
 		$product_data['success_message'] = $success_message;
 
-
+	
 		$check_if_product_exist = QuoteListModel::find_product_in_quote( $quote_list_id, $product_data );
 		
 		if ( null !== $check_if_product_exist && ( 'variable' === $product_data['type'] || 'composite' === $product_data['type'] ) ) {
@@ -667,9 +667,6 @@ class QuoteListController {
 	public static function show_or_hide_add_to_cart_on_product_page() {
 		global $post;
 		$product = wc_get_product( $post->ID );
-		if (is_bool($product)) {
-			return;
-		}
 
 
 		$result = QuoteListModel::show_or_hide_add_to_cart( 'product' );

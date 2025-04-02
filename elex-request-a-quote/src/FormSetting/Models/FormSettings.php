@@ -113,20 +113,23 @@ class FormSettings {
 	public function to_array() {
 
 		$data = $this->data;
-
+	
 		if ( is_array( $data['fields'] ) ) {
-
+	
 			$data['fields'] = array_map(
-				function ( FormField $field ) {
-				return  $field->to_array();
-
+				function ( $field ) {
+					// Check if the field is an instance of FormField
+					if ( $field instanceof FormField ) {
+						return $field->to_array();
+					}
+					// If it's not, return null or handle as needed
+					return null;
 				},
 				$data['fields']
 			);
 		}
 		return $data;
 	}
-
 
 	public function merge( $new_options ) {
 
