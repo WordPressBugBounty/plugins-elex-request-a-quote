@@ -1517,8 +1517,9 @@ class QuoteListModel {
 		$api_key  = $settings['rest_api']['api_key'];
 
 		if ( isset( $rest_api ) && isset( $api_key ) && '' !== $api_key ) {
-			$headers = $request->get_headers();
-			if ( $headers['elex_raq_token'][0] == $api_key ) {
+			$headers        = $request->get_headers();
+			$received_token = isset( $headers['elex_raq_token'][0] ) ? sanitize_text_field( $headers['elex_raq_token'][0] ) : '';
+			if ( $received_token == $api_key ) {
 				return true;
 			}
 		}

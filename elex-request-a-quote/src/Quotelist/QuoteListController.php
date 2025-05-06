@@ -471,7 +471,8 @@ class QuoteListController {
 
 	
 	public static function get_the_quote_list() {
-
+		
+		check_ajax_referer( 'request-a-quote-ajax-nonce', 'ajax_raq_nonce' );
 		$quote_data = array();
 		$user_id    = get_current_user_id();
 

@@ -252,7 +252,7 @@ jQuery(document).ready(function () {
     url: quote_list_ajax_obj.ajax_url,
     data: {
       action: "get_the_quote_list",
-      ajax_raq_nonce: jQuery("#ajax_raq_nonce").val(),
+      ajax_raq_nonce: quote_list_ajax_obj.nonce,
     },
     success: function (data) {
       const iconPosition = data?.widget?.quote_list_icon_position
