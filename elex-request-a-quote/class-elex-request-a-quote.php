@@ -10,7 +10,7 @@
 Plugin Name:          ELEX WooCommerce Request a Quote - Basic
 Plugin URI:           https://elextensions.com/plugin/
 Description:          Create Request a Quote option for your WooCommerce products. You can also create and customize request a quote forms to be displayed on the frontend. The plugin will also send automated email notifications for quote submissions, approvals, and rejections.
-Version:              2.3.5
+Version:              2.3.6
 WC requires at least: 2.6.0
 WC tested up to:      9.8
 Author:               ELEXtensions

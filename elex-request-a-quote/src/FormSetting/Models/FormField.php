@@ -56,8 +56,11 @@ class FormField extends Fluent {
 		return true;
 	}
 
-	public static function build( array $attributes ) {
-
+	public static function build( $attributes ) {
+		if ( !is_array( $attributes ) ) {
+			$attributes = [];
+		}
+		
 		$options = array();
 		if ( array_key_exists( 'options' , $attributes ) ) {
 			$options = $attributes['options'];

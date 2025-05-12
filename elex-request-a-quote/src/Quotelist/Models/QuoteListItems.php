@@ -32,7 +32,9 @@ class QuoteListItems {
 		'tax'         => 0,
 		'total'       => 0,
 		'wc_currency' => null,
-		'currency_position'=>'left'
+		'currency_position'=>'left',
+		'inclusive_tax' => 0,
+
 	);
 
 
@@ -47,6 +49,7 @@ class QuoteListItems {
 		$this->data['wc_currency']       = self::get_wc_currency();
 		$this->data['id']                = $this->quote_list_id;
 		$this->data['currency_position'] = self::get_currency_position();
+		$this->data['inclusive_tax']     = wc_prices_include_tax();
 
 		return $this->data;
 	}
@@ -288,7 +291,9 @@ class QuoteListItems {
 		$total                   = wc_prices_include_tax() ?  $subtotal : ( $subtotal + $tax );
 		$this->data['total']     = ( '' !== $total && 0 !== $total &&  '0' !== $total ) ? wc_price( $total) :0;
 		
-
+		if ( wc_prices_include_tax() && $tax > 0 ) {
+			$this->data['total'] .= ' <small>(includes ' . wc_price( $tax ) . ' tax)</small>';
+		}
 
 
 		return $items;

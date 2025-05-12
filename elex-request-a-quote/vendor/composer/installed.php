@@ -3,7 +3,7 @@
         'name' => 'elula/request-a-quote',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '2ef108444426a2666cbbf371c2fc5f7d0856f2b9',
+        'reference' => 'e335294259032196eb62098231451be24075d0e0',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'elula/request-a-quote' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '2ef108444426a2666cbbf371c2fc5f7d0856f2b9',
+            'reference' => 'e335294259032196eb62098231451be24075d0e0',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

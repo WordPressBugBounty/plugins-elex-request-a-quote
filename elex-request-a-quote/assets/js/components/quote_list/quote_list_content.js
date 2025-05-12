@@ -85,7 +85,7 @@ const ShowProductSubtotal = (props) => {
 }
 
 const ShowTax = (props) => {
- if(props.show_tax === true && props.is_hide_price !== true ){
+ if( props.inclusive_tax !== true && props.show_tax === true && props.is_hide_price !== true ){
  return(
  <div className="d-flex justify-content-between mb-2">
  <h6 className="mb-0">{__('Tax','elex-request-a-quote')}</h6>
@@ -252,7 +252,7 @@ export const QuoteListProducts = (props) => {
  return(
  <div className="col-md-6 col-7 border-0 mb-2 border-bottom border-secondary">
  <ShowSubTotal is_hide_price ={props.is_hide_price} currency= {props.currency} currency_position= {props.currency_position} sub_total ={props.items.quote_list.sub_total} show_sub_total={props.items.settings.show_on_product_table.each_product_subtotal } />
- <ShowTax is_hide_price ={props.is_hide_price} currency= {props.currency} currency_position= {props.currency_position} tax_value ={props.items.quote_list.tax} show_tax={props.items.settings.show_on_product_table.taxes } />
+ <ShowTax inclusive_tax ={ props.items.quote_list.inclusive_tax} is_hide_price ={props.is_hide_price} currency= {props.currency} currency_position= {props.currency_position} tax_value ={props.items.quote_list.tax} show_tax={props.items.settings.show_on_product_table.taxes } />
  
  <ShowTotal is_hide_price ={props.is_hide_price} currency= {props.currency}  currency_position= {props.currency_position} total ={props.items.quote_list.total} show_sub_total={props.items.settings.show_on_product_table.each_product_subtotal } />
  </div>
