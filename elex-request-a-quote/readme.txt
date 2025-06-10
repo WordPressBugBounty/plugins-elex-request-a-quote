@@ -4,7 +4,7 @@ Donate link:
 Tags: woocommerce request a quote, quote request, request a quote shortcode, request a quote button, request for quote.
 Requires at least: 3.0.1
 Tested up to: 6.8
-Stable tag: 2.3.6
+Stable tag: 2.3.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,8 +65,12 @@ We, Team ELEXtensions are a group of WordPress and WooCommerce enthusiasts with 
 8. With Add to Cart Button.
 
 == Changelog ==
+= 2.3.7 =
+* Added the .pot file to support language translations
+* Tested OK with WooCommerce 9.9
+
 = 2.3.6 =
-* Fixed PHP error and corrected tax inclusion display in the quote form
+* Fix PHP error and correct tax inclusion display in quote form
 
 = 2.3.5 =
 * Tested OK with WooCommerce 9.8
@@ -289,8 +293,12 @@ We, Team ELEXtensions are a group of WordPress and WooCommerce enthusiasts with 
 * Initial Version
 
 == Upgrade Notice ==
+= 2.3.7 =
+* Added the .pot file to support language translations
+* Tested OK with WooCommerce 9.9
+
 = 2.3.6 =
-* Fixed PHP error and corrected tax inclusion display in the quote form
+* Fix PHP error and correct tax inclusion display in quote form
 
 = 2.3.5 =
 * Tested OK with WooCommerce 9.8
