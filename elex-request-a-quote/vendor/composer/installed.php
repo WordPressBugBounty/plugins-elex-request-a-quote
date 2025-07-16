@@ -1,22 +1,22 @@
 <?php return array(
     'root' => array(
-        'name' => 'elula/request-a-quote',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'e335294259032196eb62098231451be24075d0e0',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
+        'reference' => 'ec3e32dcc7286b9726d88f3b4b23d57021f8ccda',
+        'name' => 'elula/request-a-quote',
         'dev' => false,
     ),
     'versions' => array(
         'elula/request-a-quote' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'e335294259032196eb62098231451be24075d0e0',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
+            'reference' => 'ec3e32dcc7286b9726d88f3b4b23d57021f8ccda',
             'dev_requirement' => false,
         ),
     ),

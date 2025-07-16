@@ -676,16 +676,18 @@ class QuoteListController {
 		
 		if ( true === $result ) {
 
-			if ( $product->get_type() == 'variable' ) {
-				remove_action( 'woocommerce_single_variation', 'woocommerce_single_variation_add_to_cart_button', 20 );
-				add_action( 'woocommerce_single_variation', 'woocommerce_quantity_input', 10 );
-			} else {
-				wc_enqueue_js(
-					"
+			if ( $product && is_a( $product, 'WC_Product' ) ) {
+				if ( $product->get_type() == 'variable' ) {
+					remove_action( 'woocommerce_single_variation', 'woocommerce_single_variation_add_to_cart_button', 20 );
+					add_action( 'woocommerce_single_variation', 'woocommerce_quantity_input', 10 );
+				} else {
+					wc_enqueue_js(
+						"
 						jQuery('button[name=add-to-cart]').remove();
 						jQuery('button.single_add_to_cart_button:nth-of-type(2)').remove();
 						"
-				);
+					);
+				}
 			}
 		}
 			
