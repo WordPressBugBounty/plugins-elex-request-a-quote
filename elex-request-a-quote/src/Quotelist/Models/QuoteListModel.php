@@ -679,20 +679,17 @@ class QuoteListModel {
 			)) {
 				return $price;
 		}
-
-		//To make it compatible with elementor
-		wc_enqueue_js(
-			"	
-		//Fires whenever variation selects are changed
-		jQuery( '.variations_form' ).on( 'woocommerce_variation_select_change', function () {
-			// Fires when variation option isn't selected
-			jQuery('form.variations_form').on('show_variation',function(event, data){
-				jQuery('.single_variation').hide();
-				
-			});	
-		});
-	"
-		);
+		 wp_enqueue_script( 'jquery' ); // Ensures Jquery loaded
+		wp_add_inline_script( 'jquery', "	
+			//Fires whenever variation selects are changed
+			jQuery( '.variations_form' ).on( 'woocommerce_variation_select_change', function () {
+				// Fires when variation option isn't selected
+				jQuery('form.variations_form').on('show_variation',function(event, data){
+					jQuery('.single_variation').hide();
+					
+				});	
+			});
+		" );
 
 		$price = '';
 		return $price;

@@ -125,12 +125,17 @@ class QuoteListItems {
 				$product_name = $product_name . ': ' . $concatenatedValues;
 
 			}
-			$item_price     = ( 'variable' === $product->get_type() ) ? $variation->get_price() : $product->get_price();
-			$subtotal      += (int) $product_data->quantity * (float) $item_price;
-			$price_excl_tax = wc_get_price_excluding_tax( $product ); // price without VAT
-			$price_incl_tax = wc_get_price_including_tax( $product );  // price with VAT
-			$tax           += (int) ( $product_data->quantity ) * ( ( $price_incl_tax - $price_excl_tax ) ); // VAT amount
-			$total          = '' !== $item_price ? (int) $product_data->quantity * $item_price : 0;
+			$item_price = ( 'variable' === $product->get_type() ) ? $variation->get_price() : $product->get_price();
+			$subtotal  += (int) $product_data->quantity * (float) $item_price;
+			if ( 'variable' === $product->get_type() ) {
+				$price_excl_tax = wc_get_price_excluding_tax( $variation ); // price without VAT
+				$price_incl_tax = wc_get_price_including_tax( $variation );  // price with VAT
+			} else {
+				$price_excl_tax = wc_get_price_excluding_tax( $product ); // price without VAT
+				$price_incl_tax = wc_get_price_including_tax( $product );  // price with VAT
+			} 
+			$tax  += (int) ( $product_data->quantity ) * ( ( $price_incl_tax - $price_excl_tax ) ); // VAT amount
+			$total = '' !== $item_price ? (int) $product_data->quantity * $item_price : 0;
 			array_push(
 				$items,
 				array(

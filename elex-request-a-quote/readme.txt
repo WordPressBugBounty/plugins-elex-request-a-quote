@@ -3,8 +3,8 @@ Contributors: ELEXtensions
 Donate link:
 Tags: woocommerce request a quote, quote request, request a quote shortcode, request a quote button, request for quote.
 Requires at least: 3.0.1
-Tested up to: 6.8
-Stable tag: 2.3.8
+Tested up to: 6.9
+Stable tag: 2.3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,9 @@ We, Team ELEXtensions are a group of WordPress and WooCommerce enthusiasts with 
 8. With Add to Cart Button.
 
 == Changelog ==
+
+= 2.3.9 =
+* Tested OK with WordPress 6.9
 
 = 2.3.8 =
 * Tested OK with WooCommerce 10
@@ -298,6 +301,9 @@ We, Team ELEXtensions are a group of WordPress and WooCommerce enthusiasts with 
 * Initial Version
 
 == Upgrade Notice ==
+
+= 2.3.9 =
+* Tested OK with WordPress 6.9
 
 = 2.3.8 =
 * Tested OK with WooCommerce 10

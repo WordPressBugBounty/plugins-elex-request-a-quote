@@ -48,20 +48,22 @@ class RequestAQuote {
 		add_action(
 			'woocommerce_init',
 			function() {
-				wc_enqueue_js(
-					"	
-				jQuery('a[href*=\"quote-received-page\"]').closest('li').remove();
-				//Fires whenever variation selects are changed
-				jQuery( '.variations_form' ).on( 'woocommerce_variation_select_change', function () {
-					// Fires when variation option isn't selected
-					jQuery('form.variations_form').on('hide_variation',function(event, data){
-						jQuery('.add_to_quote').addClass('disabled');
-						jQuery('.add_to_quote').css('opacity','0.5');
-						jQuery('.add_to_quote').attr('disabled', true); 
-					});	
-				});
-			"
-				);
+				 
+				  wp_enqueue_script( 'jquery' ); // Ensures Jquery loaded
+
+				  wp_add_inline_script( 'jquery', "	
+					jQuery('a[href*=\"quote-received-page\"]').closest('li').remove();
+					//Fires whenever variation selects are changed
+					jQuery( '.variations_form' ).on( 'woocommerce_variation_select_change', function () {
+						// Fires when variation option isn't selected
+						jQuery('form.variations_form').on('hide_variation',function(event, data){
+							jQuery('.add_to_quote').addClass('disabled');
+							jQuery('.add_to_quote').css('opacity','0.5');
+							jQuery('.add_to_quote').attr('disabled', true); 
+						});	
+					});
+				" );
+
 			}
 		);
 	add_action( 'init', array( self::class, 'hide_add_to_cart_inclusion_feature' ));

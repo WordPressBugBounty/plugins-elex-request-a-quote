@@ -12,6 +12,8 @@ export const FormSettings = (props) => {
     const [url, setUrl] = wp.element.useState(props.data.redirection_url);
     const [msg, setSuccessMsg] = wp.element.useState(props.data.success_message);
     const [showForm, SetShowFormToggle] = wp.element.useState('false' == props.data.show_form ? false :true);
+    const [isAddNewField, setIsAddNewField] = wp.element.useState(false);
+
 
     const [createUser, setUser] = wp.element.useState(
        false
@@ -74,6 +76,7 @@ export const FormSettings = (props) => {
     const AddNewField = () => {
         
         const newFormFields = [...FieldItems];
+        setIsAddNewField(true);
         newFormFields.push({
             name: "",
             type: 'text',
@@ -86,12 +89,8 @@ export const FormSettings = (props) => {
             is_new_field:true,
             is_radio_checkbox:false,
             options:[],
-
         });
         setFielditems(newFormFields);
-
-    
-
     }
 
     const onFormFieldRowRemove = (i) => {
@@ -186,6 +185,7 @@ export const FormSettings = (props) => {
  
             },
             success: function(data) {
+                setIsAddNewField(false);
                 if(data.data.code === 1){
                     jQuery("#elex-raq-saved-sucess-toast").addClass("show");
                 }
@@ -674,9 +674,9 @@ export const FormSettings = (props) => {
                                 {FieldItems.map((field, i) => {
                                     return <FormField 
                                         key={i} 
-                                        onDragEnd={e => drop(e, i)} 
-                                        onDragEnter={(e) => dragEnter(e, i)} 
-                                        onDragStart={(e) => dragStart(e, i)} 
+                                        onDragEnd={isAddNewField ? () => {} : (e) => drop(e, i)}
+                                        onDragEnter={isAddNewField ? () => {} : (e) => dragEnter(e, i)}
+                                        onDragStart={isAddNewField ? () => {} : (e) => dragStart(e, i)}
                                         onEdit={onClickEdit}   
                                         data={field}
                                         // chipvalues = {(field.options[0]) ? field.options[0].label : []}
@@ -684,6 +684,7 @@ export const FormSettings = (props) => {
                                         onUpdateToggle={field => UpdateToggle(field, i)} 
                                         
                                         onDelete={() => onFormFieldRowRemove(i)}  
+                                        setIsAddNewField={setIsAddNewField} 
                                     />
                                 })}
                             </tbody>

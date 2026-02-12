@@ -42,7 +42,7 @@ export const FormField = (props) => {
               data: data,
             },
             success: function(data) {
-
+                 props.setIsAddNewField(false);
                 if(data.data.code === 2){
                     jQuery("#elex-raq-updated-sucess-toast").addClass("show");
                 }

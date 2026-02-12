@@ -681,12 +681,11 @@ class QuoteListController {
 					remove_action( 'woocommerce_single_variation', 'woocommerce_single_variation_add_to_cart_button', 20 );
 					add_action( 'woocommerce_single_variation', 'woocommerce_quantity_input', 10 );
 				} else {
-					wc_enqueue_js(
-						"
+					 wp_enqueue_script( 'jquery' ); // Ensures Jquery loaded
+					 wp_add_inline_script( 'jquery', "
 						jQuery('button[name=add-to-cart]').remove();
 						jQuery('button.single_add_to_cart_button:nth-of-type(2)').remove();
-						"
-					);
+						" );
 				}
 			}
 		}
