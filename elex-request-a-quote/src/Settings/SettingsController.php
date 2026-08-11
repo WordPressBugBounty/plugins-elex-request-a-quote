@@ -488,11 +488,26 @@ class SettingsController {
 		include ELEX_RAQ_VIEW_PATH . 'settings.php';
 	}
 
+	/**
+	 * Validates that the current user has WooCommerce admin access.
+	 * Sends a 403 JSON error and terminates if not.
+	 */
+	public static function validate_admin_ajax_access() {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_send_json_error(
+				array(
+					'msg' => __( 'You do not have permission to perform this action.', 'elex-request-a-quote' ),
+				),
+				403
+			);
+		}
+	}
+
 	public static function search_user_role() {
 		// Get User role Name.
 			check_ajax_referer( 'request-a-quote-ajax-nonce', 'req_a_quote_nonce' );
+			self::validate_admin_ajax_access();
 
-			
 			$search_key = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : '';
 			$roles      = GeneralSettings::get_user_role( $search_key );
 			wp_send_json_success( $roles );
@@ -501,6 +516,7 @@ class SettingsController {
 	public static function search_products_by_name() {
 		// Get Product Name.
 			check_ajax_referer( 'request-a-quote-ajax-nonce', 'req_a_quote_nonce' );
+			self::validate_admin_ajax_access();
 
 			$search_key     = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : '';
 			$products_array = GeneralSettings::get_products( $search_key );
@@ -511,6 +527,8 @@ class SettingsController {
 	public static function search_products_by_category() {
 		// Get Product Name.
 			check_ajax_referer( 'request-a-quote-ajax-nonce', 'req_a_quote_nonce' );
+			self::validate_admin_ajax_access();
+
 			$search_key     = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : '';
 			$products_array = GeneralSettings::get_products_by_category( $search_key );
 			wp_send_json_success( $products_array );
@@ -521,6 +539,8 @@ class SettingsController {
 	public static function search_products_by_tag() {
 		// Get Product Name.
 			check_ajax_referer( 'request-a-quote-ajax-nonce', 'req_a_quote_nonce' );
+			self::validate_admin_ajax_access();
+
 			$search_key     = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : '';
 			$products_array = GeneralSettings::get_products_by_tag( $search_key );
 			wp_send_json_success( $products_array );

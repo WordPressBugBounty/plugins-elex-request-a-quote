@@ -4,6 +4,7 @@ namespace Elex\RequestAQuote\FormSetting;
 
 use Elex\RequestAQuote\FormSetting\Models\FormSettings;
 use Elex\RequestAQuote\FormSetting\Models\FormField;
+use Elex\RequestAQuote\Settings\SettingsController;
 
 
 class FormSettingController {
@@ -82,6 +83,7 @@ class FormSettingController {
 	public static function rearrange_field() {
 
 		check_ajax_referer( 'raq-formsetting-ajax-nonce', 'ajax_raq_nonce' );
+		SettingsController::validate_admin_ajax_access();
 
 		if ( ! isset( $_POST['source_index'] ) || ! isset( $_POST['destination_index'] ) ) {
 			wp_send_json_error(
@@ -112,7 +114,7 @@ class FormSettingController {
 	
 	public static  function elex_raq_add_field() {
 		check_ajax_referer( 'raq-formsetting-ajax-nonce', 'ajax_raq_nonce' );
-
+		SettingsController::validate_admin_ajax_access();
 
 		if ( ! isset( $_POST['data']['name'] ) || empty( $_POST['data']['name'] ) || empty( $_POST['data']['type'] ) || ! isset( $_POST['data']['type'] ) ) {
 			wp_send_json_error(
@@ -264,6 +266,8 @@ class FormSettingController {
 
 	public static function elex_raq_save_form_settings_data() {
 		check_ajax_referer( 'raq-formsetting-ajax-nonce', 'ajax_raq_nonce' );
+
+		SettingsController::validate_admin_ajax_access();
 
 		$new_settings   = array();
 		$quote_recevied = get_page_by_path( '/quote-received-page' );
@@ -445,6 +449,7 @@ class FormSettingController {
 	public static  function elex_raq_form_edit_field() {
 		check_ajax_referer( 'raq-formsetting-ajax-nonce', 'ajax_raq_nonce' );
 
+		SettingsController::validate_admin_ajax_access();
 
 		if ( ! isset( $_POST['data']['name'] ) || empty( $_POST['data']['name'] ) || empty( $_POST['data']['type'] ) || ! isset( $_POST['data']['type'] ) ) {
 			wp_send_json_error(
@@ -530,6 +535,7 @@ class FormSettingController {
 	public static function elex_raq_toggle_field() {
 		check_ajax_referer( 'raq-formsetting-ajax-nonce', 'ajax_raq_nonce' );
 
+		SettingsController::validate_admin_ajax_access();
 
 		$key = isset( $_POST['key'] ) ? sanitize_text_field( $_POST['key'] ) : '';
 
@@ -569,6 +575,7 @@ class FormSettingController {
 
 		check_ajax_referer( 'raq-formsetting-ajax-nonce', 'ajax_raq_nonce' );
 
+		SettingsController::validate_admin_ajax_access();
 
 		$key = isset( $_POST['key'] ) ? sanitize_text_field( $_POST['key'] ) : '';
 
