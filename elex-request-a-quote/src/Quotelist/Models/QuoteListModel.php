@@ -67,53 +67,35 @@ class QuoteListModel {
 
 	public static function find_product_in_quote( $quote_list_id, $data ) {
 
-		global $wpdb;
-
 		$query = WPFluentELEXRAQ()->table( Migrate::TABLE_QUOTE_PRODUCTS )
 			->where( 'quote_list_id', '=', $quote_list_id )
 			->where( 'product_id', '=', $data['id'] )
 			->select( '*' );
-		if ( isset( $data['variation_id'] ) && ! empty( $data['variation_id'] ) && !isset($data['attributes']) ) {
+
+		if ( isset( $data['variation_id'] ) && ! empty( $data['variation_id'] ) && ! isset( $data['attributes'] ) ) {
 			$query = $query->where( 'variation_id', '=', $data['variation_id'] );
 		}
 
-		if ( isset( $data['variation_id'] ) && ! empty( $data['variation_id'] ) && isset($data['attributes']) && !empty($data['attributes'] ) ) {
-			$attribute_values = [];
-			$unescapedString  = stripslashes( $data['attributes'] );
-	
+		// If the product type is variable, check whether the variation with specific
+		// attributes is already added in the database.
+		if ( isset( $data['variation_id'] ) && ! empty( $data['variation_id'] ) && isset( $data['attributes'] ) && ! empty( $data['attributes'] ) ) {
+			$unescapedString     = stripslashes( $data['attributes'] );
 			$data_from_front_end = json_decode( $unescapedString, true );
-			$attributeValues     = array_column($data_from_front_end, 'attribute_value');
-	
-			foreach ($attributeValues as $attribute) {
-				$conditions[] = 'JSON_CONTAINS(product_attributes, %s)';
-				$params[]     = json_encode(['attribute_value' => $attribute]);
-			}
-	
-			$conditions[] = 'quote_list_id = %d';
-			$conditions[] = 'product_id = %d';
-			$conditions[] = 'variation_id = %d';
-	
-			$params[] = $quote_list_id;
-			$params[] = $data['id'];
-			$params[] = $data['variation_id'];
-	
-			$whereClause = implode(' AND ', $conditions);
-	
-			$sql = "SELECT * FROM `{$wpdb->prefix}elex_quote_products` WHERE $whereClause";
-	
-			// Concatenate the SQL query manually
-			$prepared_sql = $sql;
+			$attributeValues     = array_column( $data_from_front_end, 'attribute_value' );
 
-			foreach ($params as $param) {
-				$param        = is_numeric($param) ? $param : "'" . esc_sql($param) . "'";
-				$prepared_sql = preg_replace('/%[ds]/', $param, $prepared_sql, 1);
+			foreach ( $attributeValues as $attribute ) {
+				$query = $query->where(
+					WPFluentELEXRAQ()->raw(
+						'JSON_CONTAINS(product_attributes, ?)',
+						array( json_encode( array( 'attribute_value' => $attribute ) ) )
+					)
+				);
 			}
 
-			// Execute the concatenated SQL query
-			$results = $wpdb->get_row( ( $wpdb->prepare( '%1s', $prepared_sql ) ? stripslashes( $wpdb->prepare( '%1s', $prepared_sql ) ) : $wpdb->prepare( '%s', '' ) ), ARRAY_A );
-			return $results;
+			$query = $query->where( 'variation_id', '=', intval( $data['variation_id'] ) );
+			return $query->first();
 		}
-	
+
 		return $query->first();
 	}
 

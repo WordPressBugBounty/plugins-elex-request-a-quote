@@ -31,7 +31,7 @@
           "WooCommerce\\GitHooks\\Hooks::postHooks"
         ],
         "phpcs": [
-          "phpcs --warning-severity=0 -s --ignore-annotations --extensions=php,html ."
+            "phpcs --warning-severity=0 -s --ignore-annotations --extensions=php,html ."
         ],
         "phpcbf": [
           "phpcbf --extensions=php -p ."

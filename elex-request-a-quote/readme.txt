@@ -3,8 +3,8 @@ Contributors: ELEXtensions
 Donate link:
 Tags: woocommerce request a quote, quote request, request a quote shortcode, request a quote button, request for quote.
 Requires at least: 3.0.1
-Tested up to: 7.0
-Stable tag: 2.4.0
+Tested up to: 7.1
+Stable tag: 2.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,10 @@ We, Team ELEXtensions are a group of WordPress and WooCommerce enthusiasts with 
 8. With Add to Cart Button.
 
 == Changelog ==
+
+= 2.4.1 =
+* Security fix: Patched unauthenticated SQL injection (CVE-2026-14962) in find_product_in_quote() by replacing unsafe manual SQL construction and stripslashes(wpdb->prepare('%1s',...)) with properly parameterized wpdb->prepare() calls and intval() casting for all integer identifiers.
+* Tested OK with WordPress 7.1
 
 = 2.4.0 =
 * Tested OK with WordPress 7.0
@@ -306,6 +310,10 @@ We, Team ELEXtensions are a group of WordPress and WooCommerce enthusiasts with 
 * Initial Version
 
 == Upgrade Notice ==
+
+= 2.4.1 =
+* Important security update. Fixes unauthenticated SQL injection vulnerability (CVE-2026-14962). All users should upgrade immediately.
+* Tested OK with WordPress 7.1
 
 = 2.4.0 =
 * Tested OK with WordPress 7.0
